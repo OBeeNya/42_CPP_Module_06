@@ -3,6 +3,7 @@
 
 # include <iostream>
 # include <stdexcept>
+# include <limits>
 
 class	Convert
 {
@@ -35,6 +36,13 @@ class	Convert
 		void	print(void) const;
 
 		class	InvalidInput:
+			public std::exception
+		{
+			public:
+				virtual const char*	what(void) const throw();
+		};
+
+		class	InputOverflow:
 			public std::exception
 		{
 			public:
