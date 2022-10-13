@@ -32,7 +32,7 @@ void	Convert::_getType(void)
 	}
 	else if (this->_typeDouble())
 	{
-		if (strtold(this->_arg.c_str(), NULL) < std::numeric_limits<double>::min() || \
+		if (strtold(this->_arg.c_str(), NULL) < - std::numeric_limits<double>::max() - 1 || \
 			strtold(this->_arg.c_str(), NULL) > std::numeric_limits<double>::max())
 			throw (Convert::InputOverflow());
 		this->_type = "double";
@@ -42,7 +42,7 @@ void	Convert::_getType(void)
 	}
 	else if (this->_typeFloat())
 	{
-		if (strtod(this->_arg.c_str(), NULL) < std::numeric_limits<float>::min() || \
+		if (strtod(this->_arg.c_str(), NULL) < - std::numeric_limits<float>::max() - 1 || \
 			strtod(this->_arg.c_str(), NULL) > std::numeric_limits<float>::max())
 			throw (Convert::InputOverflow());
 		this->_type = "float";
