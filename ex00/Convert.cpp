@@ -26,7 +26,7 @@ void	Convert::_getType(void)
 		if (atol(this->_arg.c_str()) < std::numeric_limits<int>::min() || \
 			atol(this->_arg.c_str()) > std::numeric_limits<int>::max())
 			throw (Convert::InputOverflow());
-		this->_int = std::atoi(this->_arg.c_str());
+		this->_int = atoi(this->_arg.c_str());
 	}
 	else if (this->_typeDouble())
 		this->_type = "double";
