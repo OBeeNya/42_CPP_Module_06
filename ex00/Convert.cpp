@@ -27,11 +27,29 @@ void	Convert::_getType(void)
 			atol(this->_arg.c_str()) > std::numeric_limits<int>::max())
 			throw (Convert::InputOverflow());
 		this->_int = atoi(this->_arg.c_str());
+		this->_double = static_cast<double>(this->_int);
+		this->_float = static_cast<float>(this->_int);
 	}
 	else if (this->_typeDouble())
+	{
+		if (strtold(this->_arg.c_str(), NULL) < std::numeric_limits<double>::min() || \
+			strtold(this->_arg.c_str(), NULL) > std::numeric_limits<double>::max())
+			throw (Convert::InputOverflow());
 		this->_type = "double";
+		this->_double = strtod(this->_arg.c_str(), NULL);
+		this->_int = static_cast<int>(this->_double);
+		this->_float = static_cast<float>(this->_double);
+	}
 	else if (this->_typeFloat())
+	{
+		if (strtod(this->_arg.c_str(), NULL) < std::numeric_limits<float>::min() || \
+			strtod(this->_arg.c_str(), NULL) > std::numeric_limits<float>::max())
+			throw (Convert::InputOverflow());
 		this->_type = "float";
+		this->_float = strtof(this->_arg.c_str(), NULL);
+		this->_int = static_cast<int>(this->_float);
+		this->_double = static_cast<float>(this->_float);
+	}
 	// else if (this->_typeChar())
 	// 	this->_type = "char";
 	else
@@ -49,9 +67,8 @@ bool	Convert::_typeInt(void) const
 			if (this->_arg[i] == '-')
 				countneg++;
 		}
-		if (countneg > 1)
-			return (false);
-		if (countneg && (this->_arg[0] != '-' || this->_arg.length() == 1))
+		if (countneg > 1 || (countneg && (this->_arg[0] != '-' \
+			|| this->_arg.length() == 1)))
 			return (false);
 		return (true);
 	}
@@ -76,9 +93,7 @@ bool	Convert::_typeDouble() const
 			if (this->_arg[i] == '-')
 				countn++;
 		}
-		if (countp > 1 || countn > 1)
-			return (false);
-		if (countn && this->_arg[0] != '-')
+		if (countp > 1 || countn > 1 || (countn && this->_arg[0] != '-'))
 			return (false);
 		return (true);
 	}
@@ -106,11 +121,9 @@ bool	Convert::_typeFloat() const
 			if (this->_arg[i] == 'f')
 				countf++;
 		}
-		if (countp > 1 || countn > 1 || countf > 1)
-			return (false);
-		if (countn && this->_arg[0] != '-')
-			return (false);
-		if (this->_arg[this->_arg.length()- 1] != 'f')
+		if (countp > 1 || countn > 1 || countf > 1 \
+			|| (countn && this->_arg[0] != '-') \
+			|| (this->_arg[this->_arg.length()- 1] != 'f'))
 			return (false);
 		return (true);
 	}
@@ -127,7 +140,9 @@ void	Convert::print(void) const
 {
 	std::cout << "char: " << this->_char << std::endl;
 	std::cout << "int: " << this->_int << std::endl;
-	std::cout << "float: " << this->_float << std::endl;
+	std::cout.precision(std::numeric_limits<float>::max_digits10);
+	std::cout << "float: " << this->_float << "f" << std::endl;
+	std::cout.precision(std::numeric_limits<double>::max_digits10);
 	std::cout << "double: " << this->_double << std::endl;
 	return ;
 }
