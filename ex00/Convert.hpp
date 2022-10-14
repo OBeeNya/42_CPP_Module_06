@@ -23,7 +23,6 @@ class	Convert
 		bool	_typeChar(void) const;
 
 		std::string	_arg;
-		std::string	_type;
 		std::string	_char;
 		int			_int;
 		double		_double;

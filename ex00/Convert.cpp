@@ -2,7 +2,6 @@
 
 Convert::Convert(const std::string arg):
 	_arg(arg),
-	_type(""),
 	_char(""),
 	_int(0),
 	_double(0.0),
@@ -25,7 +24,6 @@ void	Convert::_getType(void)
 		return ;
 	if (this->_typeInt())
 	{
-		this->_type = "int";
 		if (atol(this->_arg.c_str()) < std::numeric_limits<int>::min() || \
 			atol(this->_arg.c_str()) > std::numeric_limits<int>::max())
 			throw (Convert::InputOverflow());
@@ -42,7 +40,6 @@ void	Convert::_getType(void)
 		if (strtold(this->_arg.c_str(), NULL) < - std::numeric_limits<double>::max() - 1 || \
 			strtold(this->_arg.c_str(), NULL) > std::numeric_limits<double>::max())
 			throw (Convert::InputOverflow());
-		this->_type = "double";
 		this->_double = strtod(this->_arg.c_str(), NULL);
 		this->_int = static_cast<int>(this->_double);
 		this->_float = static_cast<float>(this->_double);
@@ -56,7 +53,6 @@ void	Convert::_getType(void)
 		if (strtod(this->_arg.c_str(), NULL) < - std::numeric_limits<float>::max() - 1 || \
 			strtod(this->_arg.c_str(), NULL) > std::numeric_limits<float>::max())
 			throw (Convert::InputOverflow());
-		this->_type = "float";
 		this->_float = strtof(this->_arg.c_str(), NULL);
 		this->_int = static_cast<int>(this->_float);
 		this->_double = static_cast<float>(this->_float);
@@ -67,7 +63,6 @@ void	Convert::_getType(void)
 	}
 	else if (this->_typeChar())
 	{
-		this->_type = "char";
 		this->_char = this->_arg;
 		this->_int = static_cast<int>(this->_char.c_str()[0]);
 		this->_double = static_cast<double>(this->_int);
