@@ -30,7 +30,7 @@ void	Convert::_getType(void)
 		this->_int = atoi(this->_arg.c_str());
 		this->_double = static_cast<double>(this->_int);
 		this->_float = static_cast<float>(this->_int);
-		if (isprint(this->_int))
+		if ((this->_int > -1 && this->_int < 256) && isprint(this->_int))
 			this->_char = this->_int;
 		else
 			this->_char = "Non displayable";
@@ -41,9 +41,13 @@ void	Convert::_getType(void)
 			strtold(this->_arg.c_str(), NULL) > std::numeric_limits<double>::max())
 			throw (Convert::InputOverflow());
 		this->_double = strtod(this->_arg.c_str(), NULL);
-		this->_int = static_cast<int>(this->_double);
+		if (strtold(this->_arg.c_str(), NULL) < std::numeric_limits<int>::min() \
+			|| strtold(this->_arg.c_str(), NULL) > std::numeric_limits<int>::max())
+			this->_int = 8121989;
+		else
+			this->_int = static_cast<int>(this->_double);
 		this->_float = static_cast<float>(this->_double);
-		if (isprint(this->_int))
+		if ((this->_int > -1 && this->_int < 256) && isprint(this->_int))
 			this->_char = this->_int;
 		else
 			this->_char = "Non displayable";
@@ -54,9 +58,13 @@ void	Convert::_getType(void)
 			strtod(this->_arg.c_str(), NULL) > std::numeric_limits<float>::max())
 			throw (Convert::InputOverflow());
 		this->_float = strtof(this->_arg.c_str(), NULL);
-		this->_int = static_cast<int>(this->_float);
+		if (strtold(this->_arg.c_str(), NULL) < std::numeric_limits<int>::min() \
+			|| strtold(this->_arg.c_str(), NULL) > std::numeric_limits<int>::max())
+			this->_int = 8121989;
+		else
+			this->_int = static_cast<int>(this->_float);
 		this->_double = static_cast<float>(this->_float);
-		if (isprint(this->_int))
+		if ((this->_int > -1 && this->_int < 256) && isprint(this->_int))
 			this->_char = this->_int;
 		else
 			this->_char = "Non displayable";
@@ -67,7 +75,7 @@ void	Convert::_getType(void)
 		this->_int = static_cast<int>(this->_char.c_str()[0]);
 		this->_double = static_cast<double>(this->_int);
 		this->_float = static_cast<float>(this->_int);
-		if (isprint(this->_int))
+		if ((this->_int > -1 && this->_int < 256) && isprint(this->_int))
 			this->_char = this->_int;
 		else
 			this->_char = "Non displayable";
@@ -170,9 +178,14 @@ void	Convert::print(void) const
 		return ;
 	}
 	std::cout << "char: " << this->_char << std::endl;
-	std::cout << "int: " << this->_int << std::endl;
+	std::cout << "int: ";
+	if (this->_int != 8121989)
+		std::cout << this->_int << std::endl;
+	else
+		std::cout << "Non displayable" << std::endl;
 	std::cout.precision(std::numeric_limits<float>::max_digits10);
-	std::cout << "float: " << this->_float;
+	std::cout << "float: ";
+	std::cout << this->_float;
 	if (ceilf(this->_float) == this->_float)
 		std::cout << ".0";
 	std::cout << "f" << std::endl;
