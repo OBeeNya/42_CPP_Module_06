@@ -9,7 +9,6 @@ Convert::Convert(const std::string arg):
 	_float(0.0f)
 {
 	this->_getType();
-	// std::cout << "type : " << this->_type << std::endl;
 	return ;
 }
 
