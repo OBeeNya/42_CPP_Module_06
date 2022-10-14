@@ -4,6 +4,7 @@
 # include <iostream>
 # include <stdexcept>
 # include <limits>
+# include <cmath>
 
 class	Convert
 {
@@ -34,6 +35,8 @@ class	Convert
 		~Convert(void);
 
 		void	print(void) const;
+		void	printNan(void) const;
+		void	printInf(void) const;
 
 		class	InvalidInput:
 			public std::exception
